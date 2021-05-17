@@ -1,4 +1,6 @@
-public class HomeWork110521 {
+package HomeWork_01;
+
+class HomeWork_01 {
     //#1 Создать пустой проект в IntelliJ IDEA и прописать метод main();
     public static void main(String[] args) {
         //#2 Создать переменные всех пройденных типов данных, и инициализировать их значения;
