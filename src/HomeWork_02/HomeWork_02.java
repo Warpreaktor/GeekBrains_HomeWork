@@ -3,19 +3,19 @@ package HomeWork_02;
 public class HomeWork_02 {
 
     public static void main(String[] args) {
-        setNegativeNumber();
-        setIntegers();
-        smallerThanSix();
+//        setNegativeNumber();
+//        setIntegers();
+//        smallerThanSix();
         fillTheMatrix();
 
         //Test for task 5
-        int[] arr = {-47,45, 64, 12, 44, -29, 20, 15, -10, -5, 80, 62};
-        System.out.println(minInteger(arr));
-        System.out.println(maxInteger(arr));
-
-        //Test for task 6
-        int[] arr2 = {2, 5, 2, 1, 1, 1, 1, 1};
-        System.out.println(checkBalance(arr2));
+//        int[] arr = {-47,45, 64, 12, 44, -29, 20, 15, -10, -5, 80, 62};
+//        System.out.println(minInteger(arr));
+//        System.out.println(maxInteger(arr));
+//
+//        //Test for task 6
+//        int[] arr2 = {2, 5, 2, 1, 1, 1, 1, 1};
+//        System.out.println(checkBalance(arr2));
 
     }
     //1. Задать целочисленный массив, состоящий из элементов 0 и 1. Например: [ 1, 1, 0, 0, 1, 0, 1, 1, 0, 0 ].
@@ -56,11 +56,14 @@ public class HomeWork_02 {
         for (int i = 0; i < matrix.length; i++) {
             for (int j = 0; j < matrix[i].length; j++) {
                 if (j == i){
-                    matrix[i][j] = 0;
-                }else {
-                    matrix[i][j] = j;
+                    matrix[i][j] = 1;
+                    System.out.print(matrix[i][j]);
+                } else if (j == matrix.length-i-1) {
+                    matrix[i][j] = 1;
+                    System.out.print(matrix[i][j]);
+                }else{
+                    System.out.print(matrix[i][j]);
                 }
-                System.out.print(matrix[i][j]);
             }
             System.out.println();
         }
