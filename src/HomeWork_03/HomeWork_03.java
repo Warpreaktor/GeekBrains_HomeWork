@@ -163,21 +163,22 @@ public class HomeWork_03 {
         }
     }
 
+    //3 Доделать задачу с лекции.
     public static void solution(){
         String s = "Предложение       один   Теперь    предложение   два       Предложение         три     ";
         String s1 = s.replaceAll(" +", " ");
         System.out.println(s1);
 
         StringBuilder s2 = new StringBuilder(s1);
-
-        for (int i = 1; i < s2.length(); i++) {
-            if (s1.charAt(i) >= 'А' && s1.charAt(i) <= 'Я'){
-                CharSequence charSequence = ". ";
-//                s2.append(charSequence);
-                s2.setCharAt(i - 1, '.');
+        for (int i = s2.length()-1; i >= 0; i--) {
+            if (s2.charAt(i) >= 'А' && s2.charAt(i) <= 'Я'){
+                CharSequence charSequence = ".";
+                if (i - 1 > 0) {
+                    s2.insert(i - 1, charSequence);
+                }
             }
         }
-        s2.append(".");
+        s2.setCharAt(s2.length()-1,'.');
         System.out.println(s2);
     }
 
