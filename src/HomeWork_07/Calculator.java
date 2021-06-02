@@ -28,8 +28,10 @@ public class Calculator extends JFrame {
     public Calculator() {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setBounds(WIN_X, WIN_Y, WIN_WIDTH, WIN_HEIGHT);
-        setTitle("Calculator");
-        setResizable(false);
+        setTitle("Warp's Calculator");
+
+        //Оставил возможность растягивать экран, пусть менеджеры упаковки работают =))
+//        setResizable(false);
 
         //Создаем все необходимые компоненты
         mainPanel = new Box(BoxLayout.Y_AXIS);
