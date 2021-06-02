@@ -31,6 +31,7 @@ public class Calculator extends JFrame {
         setTitle("Calculator");
         setResizable(false);
 
+        //Создаем все необходимые компоненты
         mainPanel = new Box(BoxLayout.Y_AXIS);
         resultPanel = new Box(BoxLayout.X_AXIS);
 
@@ -40,6 +41,8 @@ public class Calculator extends JFrame {
         calculatorPanel = new JPanel(new GridLayout(1, 2));
         operatorsPanel = new JPanel(new GridLayout(4, 3));
         operandsPanel = new JPanel(new GridLayout(4, 2));
+
+        //Передаем менеджерам созданные панельки чтобы не морочить голову с их размерами
         resultScreenInit();
 
         add(mainPanel);
@@ -55,6 +58,9 @@ public class Calculator extends JFrame {
         setVisible(true);
     }
 
+    /**
+     * Инициализируем кнопки калькулятора
+     */
     private void operatorsInit() {
         for (int i = 9; i >= 0; i--) {
             JButton button = new JButton(String.valueOf(i));
@@ -74,6 +80,8 @@ public class Calculator extends JFrame {
                 }
             });
         }
+
+        /* Точка для возможности производить операции с дробными числами */
         JButton dot = new JButton(".");
         operatorsPanel.add(dot);
         dot.setName(".");
@@ -93,6 +101,10 @@ public class Calculator extends JFrame {
         operator1 = new StringBuilder();
         operator2 = new StringBuilder();
     }
+
+    /**
+     * Ставим точку только если она уже не стоит
+     */
     public void setDot(StringBuilder operator){
             if (operator.indexOf(".") != -1) {
                 //ничего не делать. Больше точек ставить не надо.
@@ -101,42 +113,16 @@ public class Calculator extends JFrame {
                 resultScreen.setText(operator.toString());
             }
         }
+
+    /**
+     * Инициализируем операнды
+     */
     private void operandsInit() {
-        JButton division = new JButton("/");
-        division.setName("/");
-        division.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                operation(division);
-            }
-        });
-
-        JButton mult = new JButton("*");
-        mult.setName("*");
-        mult.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               operation(mult);
-            }
-        });
-
-        JButton minus = new JButton("-");
-        minus.setName("-");
-        minus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                operation(minus);
-            }
-        });
-
-        JButton plus = new JButton("+");
-        plus.setName("+");
-        plus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                operation(plus);
-            }
-        });
+        JButton division = createOperand("/");
+        JButton mult = createOperand("*");
+        JButton minus = createOperand("-");
+        JButton plus = createOperand("+");
+        JButton reset = createResetOperand("C");
 
         JButton equal = new JButton("=");
         equal.setName("=");
@@ -147,15 +133,6 @@ public class Calculator extends JFrame {
             }
         });
 
-        JButton reset = new JButton("C");
-        reset.setName("C");
-        reset.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                resultScreen.setText("0");
-                clearResultScreen();
-            }
-        });
 
         operandsPanel.add(division);
         operandsPanel.add(minus);
@@ -165,6 +142,50 @@ public class Calculator extends JFrame {
         operandsPanel.add(equal);
     }
 
+    /**
+     * Создание стандартного операнда
+     */
+    private JButton createOperand(String operand){
+        JButton object = new JButton(operand);
+        object.setName(operand);
+        object.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                operation(object);
+            }
+        });
+        return object;
+    }
+
+    /**
+     *Создание операнда "СБРОС РЕЗУЛЬТАТА"
+     */
+    private JButton createResetOperand(String operand){
+        JButton object = new JButton(operand);
+        object.setName(operand);
+        object.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                clearResultScreen();
+            }
+        });
+        return object;
+    }
+
+    /**
+     *Создание операнда "равно"
+     */
+    private JButton createEqualOperand(String operand){
+        JButton object = new JButton(operand);
+        object.setName(operand);
+        object.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                plusEqual();
+            }
+        });
+        return object;
+    }
     public double equal(double operator1, double operator2, char operand){
         switch(operand){
             case '+':
@@ -206,6 +227,7 @@ public class Calculator extends JFrame {
         }
     }
     private void clearResultScreen(){
+        resultScreen.setText("0");
         operation = 1;
         operator1 = new StringBuilder();
         operator2 = new StringBuilder();
