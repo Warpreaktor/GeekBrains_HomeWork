@@ -4,9 +4,11 @@ import HomeWork_04.core.GameObject;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -15,45 +17,55 @@ import javafx.stage.Stage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class Controller implements Initializable {
-    @FXML
-    public AnchorPane background;
+public class GameScreen {
+    private Group visualGroup = new Group();
+    public BorderPane background;
     public VBox visualField;
 
+    private double borderPadding = 100;
+    private Game game;
+    private Stage stage;
 
     /**
-     * Инициализации контроллера декларативным методом.
+     * Инициализации контроллера.
      */
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
+    public GameScreen(Game game, Stage stage, GameMode gameMode) {
+        this.game = game;
+        this.stage = stage;
         backgroundInit();
+        fieldInit();
+        brushTheField();
     }
 
     /**
      * Инициализация заднего фона.
      */
     private void backgroundInit() {
-        background.setPrefWidth(800);
-        background.setPrefHeight(600);
+        background = new BorderPane();
+        double width = stage.getWidth();
+        double height = stage.getHeight();
+        background.setPrefWidth(width);
+        background.setPrefHeight(height);
         BackgroundImage backgroundImage = new BackgroundImage(new Image("HomeWork_04/resources/background.jpg"),
-                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
+                BackgroundRepeat.REPEAT, BackgroundRepeat.REPEAT, BackgroundPosition.CENTER, BackgroundSize.DEFAULT);
         background.setBackground(new Background(backgroundImage));
+        visualGroup.getChildren().add(background);
     }
 
     /**
      * Инициализацияи массива с элементами игрового поля.
      */
-    public void fieldInit(Game game) {
+    public void fieldInit() {
         visualField = new VBox(2);
-        visualField.setLayoutX(170);
-        visualField.setLayoutY(170);
+//        visualField.setLayoutX(background.getLayoutX()+borderPadding);
+//        visualField.setLayoutY(background.getLayoutY()+borderPadding);
         for (int i = 0; i < game.getSize(); i++) {
             HBox line = new HBox();
             visualField.getChildren().add(line);
             for (int j = 0; j < game.getSize(); j++) {
                 GameObject fieldCell = new GameObject(' ');
-                fieldCell.setFitWidth(60);
-                fieldCell.setFitHeight(60);
+                fieldCell.setFitWidth(background.getLayoutY()/10);
+                fieldCell.setFitHeight(background.getLayoutY()/10);
                 fieldCell.setXpos(j);
                 fieldCell.setYpos(i);
                 line.getChildren().add(fieldCell);
@@ -71,15 +83,18 @@ public class Controller implements Initializable {
                 });
             }
         }
+        background.setCenter(visualField);
+        visualField.setAlignment(Pos.CENTER);
     }
 
     /**
      * Метод служит для отрисовки визуальной формы игрового поля.
      */
-    public void brushTheField(Stage stage, Parent sceneBuilder) {
-        Group group = new Group(sceneBuilder, visualField);
+    public void brushTheField() {
+        Group group = new Group(background);
         Scene scene = new Scene(group);
         stage.setScene(scene);
         stage.show();
     }
+
 }
